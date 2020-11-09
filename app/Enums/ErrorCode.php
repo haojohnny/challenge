@@ -8,7 +8,7 @@ final class ErrorCode extends Enum
 {
     const Success = 0;
 
-    const RpcError = 10002;
+    const WeChatRpcError = 10002;
 
     const UserNotFound = 20001;
 }

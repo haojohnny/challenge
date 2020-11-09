@@ -40,7 +40,7 @@ class LoginService
         // 根据code请求微信服务器获取session_key和openid
         $response = Facade::miniProgram()->auth->session($code);
         if ($response['errcode'] != 0) {
-            throw new WeChatRpcException($response['errmsg'], ErrorCode::RpcError);
+            throw new RpcException($response['errmsg'], ErrorCode::WeChatRpcError);
         }
 
         // 根据openid从数据库中获取用户信息
