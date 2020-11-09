@@ -12,7 +12,7 @@ use App\Enums\ErrorCode;
 use App\Enums\SessionKey;
 use App\Events\WeChat\MiniProgram\LoginSuccess;
 use App\Exceptions\NotFoundException;
-use App\Exceptions\WeChatRpcException;
+use App\Exceptions\RpcException;
 use App\Repositories\WeChatUserRepository;
 use Overtrue\LaravelWeChat\Facade;
 
@@ -32,7 +32,7 @@ class LoginService
      * @param $code
      * @return \App\Models\WeChatUser|mixed|null
      * @throws NotFoundException
-     * @throws WeChatRpcException
+     * @throws RpcException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function execute($code)
