@@ -11,7 +11,7 @@ namespace App\Services\WeChat\MiniProgram\Session;
 use App\Enums\ErrorCode;
 use App\Enums\SessionKey;
 use App\Events\WeChat\MiniProgram\LoginSuccess;
-use App\Exceptions\UserNotFoundException;
+use App\Exceptions\NotFoundException;
 use App\Exceptions\WeChatRpcException;
 use App\Repositories\WeChatUserRepository;
 use Overtrue\LaravelWeChat\Facade;
@@ -31,7 +31,7 @@ class LoginService
     /**
      * @param $code
      * @return \App\Models\WeChatUser|mixed|null
-     * @throws UserNotFoundException
+     * @throws NotFoundException
      * @throws WeChatRpcException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
@@ -46,7 +46,7 @@ class LoginService
         // 根据openid从数据库中获取用户信息
         $userInfo = $this->weChatUserRepository->getByOpenId($response['openid']);
         if (empty($userInfo)) {
-            throw new UserNotFoundException(sprintf('user not found:[openid:%s]', $response['openid']), ErrorCode::NotFound);
+            throw new NotFoundException(sprintf('user not found:[openid:%s]', $response['openid']), ErrorCode::UserNotFound);
         }
 
         // 保存到会话

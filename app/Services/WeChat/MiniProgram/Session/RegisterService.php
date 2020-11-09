@@ -28,24 +28,26 @@ class RegisterService
     /**
      * @param $encryptedData
      * @param $iv
-     * @param $signature
-     * @return \App\Models\WeChatUser
+     * @return \App\Models\WeChatUser|mixed
      * @throws \EasyWeChat\Kernel\Exceptions\DecryptException
      */
-    public function execute($encryptedData, $rawData, $iv, $signature)
+    public function execute($encryptedData, $iv)
     {
+        $encrypt = Facade::miniProgram()->encryptor;
         $sessionInfo = request()->session()->get(SessionKey::WeChatMiniProgramUserInfo);
-        if (! $sessionInfo['session_key']) {
-
-        }
-
         // 解密数据
-        $decryptedData = Facade::miniProgram()->encryptor->decryptData($sessionInfo['session_key'], $iv, $encryptedData);
-        if (!$decryptedData) {
-
-        }
-
-        $userInfo = $this->weChatUserRepository->create();
+        $decryptedData = $encrypt->decryptData($sessionInfo['session_key'], $iv, $encryptedData);
+        // 注册用户
+        $userInfo = $this->weChatUserRepository->create(
+            $decryptedData['openId'],
+            $decryptedData['nickName'],
+            $decryptedData['avatarUrl'],
+            $decryptedData['country'],
+            $decryptedData['city'],
+            $decryptedData['language'],
+            $decryptedData['gender'],
+            $decryptedData['unionId'] ?? null
+        );
 
         // 向监听器派发注册成功事件
         event(new RegisterSuccess($userInfo));

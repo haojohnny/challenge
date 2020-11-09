@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $openid
+ * @property string $union_id
  * @property string $nickname
  * @property int $gender
  * @property string $avatar
@@ -33,4 +34,13 @@ class WeChatUser extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    /**
+     * 可批量赋值属性
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'openid', 'union_id', 'nickname', 'gender', 'avatar', 'country', 'city', 'language', 'nation', 'mobile', 'isRobot'
+    ];
 }

@@ -27,7 +27,7 @@ class SessionController extends Controller
      * @param LoginRequest $request
      * @param LoginService $login
      * @return User
-     * @throws \App\Exceptions\UserNotFoundException
+     * @throws \App\Exceptions\NotFoundException
      * @throws \App\Exceptions\WeChatRpcException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
