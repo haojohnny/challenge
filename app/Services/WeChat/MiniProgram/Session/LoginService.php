@@ -13,19 +13,28 @@ use App\Enums\SessionKey;
 use App\Events\WeChat\MiniProgram\LoginSuccess;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\RpcException;
+use App\Repositories\SessionRepository;
 use App\Repositories\WeChatUserRepository;
 use Overtrue\LaravelWeChat\Facade;
 
 class LoginService
 {
     /**
+     * 微信用户仓库
      * @var WeChatUserRepository
      */
     protected $weChatUserRepository;
 
-    public function __construct(WeChatUserRepository $userRepository)
+    /**
+     * 会话数据仓库
+     * @var SessionRepository
+     */
+    protected $sessionRepository;
+
+    public function __construct(WeChatUserRepository $userRepository, SessionRepository $sessionRepository)
     {
         $this->weChatUserRepository = $userRepository;
+        $this->sessionRepository = $sessionRepository;
     }
 
     /**
@@ -44,7 +53,7 @@ class LoginService
         }
 
         // 保存session_key和openid到会话
-        request()->session()->put(SessionKey::WeChatMiniProgramSessionKey, $response);
+        $this->sessionRepository->putSessionKey($response);
 
         // 根据openid从数据库中获取用户信息
         $userInfo = $this->weChatUserRepository->getByOpenId($response['openid']);
@@ -53,7 +62,7 @@ class LoginService
         }
 
         // 保存到会话
-        request()->session()->put(SessionKey::WeChatMiniProgramUserInfo, $userInfo);
+        $this->sessionRepository->putUserInfo($userInfo);
 
         // 向监听器派发登录成功事件
         event(new LoginSuccess($userInfo));

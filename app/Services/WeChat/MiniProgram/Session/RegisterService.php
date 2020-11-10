@@ -8,21 +8,29 @@
 
 namespace app\Services\WeChat\MiniProgram\Session;
 
-use App\Enums\SessionKey;
 use App\Events\WeChat\MiniProgram\RegisterSuccess;
+use App\Repositories\SessionRepository;
 use App\Repositories\WeChatUserRepository;
 use Overtrue\LaravelWeChat\Facade;
 
 class RegisterService
 {
     /**
+     * 微信用户仓库
      * @var WeChatUserRepository
      */
     protected $weChatUserRepository;
 
-    public function __construct(WeChatUserRepository $userRepository)
+    /**
+     * 会话数据仓库
+     * @var SessionRepository
+     */
+    protected $sessionRepository;
+
+    public function __construct(WeChatUserRepository $userRepository, SessionRepository $sessionRepository)
     {
         $this->weChatUserRepository = $userRepository;
+        $this->sessionRepository = $sessionRepository;
     }
 
     /**
@@ -34,11 +42,13 @@ class RegisterService
     public function execute($encryptedData, $iv)
     {
         $encrypt = Facade::miniProgram()->encryptor;
-        $sessionInfo = request()->session()->get(SessionKey::WeChatMiniProgramSessionKey);
+        $sessionKey = $this->sessionRepository->getSessionKey();
+
         // 解密数据
-        $decryptedData = $encrypt->decryptData($sessionInfo['session_key'], $iv, $encryptedData);
-        // 从数据库中获取该用户信息
+        $decryptedData = $encrypt->decryptData($sessionKey, $iv, $encryptedData);
+        // 获取该用户信息
         $userInfo = $this->weChatUserRepository->getByOpenId($decryptedData['openId']);
+
         if (!$userInfo) {
             // 未注册时，保存该用户
             $userInfo = $this->weChatUserRepository->create(
