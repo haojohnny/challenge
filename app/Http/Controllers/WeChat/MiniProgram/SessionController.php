@@ -28,7 +28,7 @@ class SessionController extends Controller
      * @param LoginService $login
      * @return User
      * @throws \App\Exceptions\NotFoundException
-     * @throws \App\Exceptions\WeChatRpcException
+     * @throws \App\Exceptions\RpcException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function login(LoginRequest $request, LoginService $login)
@@ -52,9 +52,7 @@ class SessionController extends Controller
 
         $register = $register->execute(
             $requestData['encryptedData'],
-            $requestData['rawData'],
-            $requestData['iv'],
-            $requestData['signature']
+            $requestData['iv']
         );
 
         return new User($register);

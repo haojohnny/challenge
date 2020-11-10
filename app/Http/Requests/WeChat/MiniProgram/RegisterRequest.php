@@ -27,7 +27,6 @@ class RegisterRequest extends FormRequest
             'encryptedData' => 'required',
             'iv' => 'required',
             'rawData' => 'required',
-            'signature' => 'required',
         ];
     }
 }

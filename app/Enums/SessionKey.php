@@ -10,4 +10,5 @@ use BenSampo\Enum\Enum;
 final class SessionKey extends Enum
 {
     const WeChatMiniProgramUserInfo = 'WeChatMiniProgramUserInfo';
+    const WeChatMiniProgramSessionKey = 'WeChatMiniProgramSessionKey';
 }

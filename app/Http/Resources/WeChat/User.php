@@ -23,8 +23,8 @@ class User extends JsonResource
             'country' => $this->country,
             'city' => $this->city,
             'language' => $this->language,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'created_at' => date('Y-m-d H:i:s', strtotime($this->created_at)),
+            'updated_at' => date('Y-m-d H:i:s', strtotime($this->updated_at))
         ];
     }
 
