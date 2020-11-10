@@ -50,11 +50,11 @@ class SessionController extends Controller
     {
         $requestData = $request->validated();
 
-        $register = $register->execute(
+        $registerUser = $register->execute(
             $requestData['encryptedData'],
             $requestData['iv']
         );
 
-        return new User($register);
+        return new User($registerUser);
     }
 }
