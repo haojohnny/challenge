@@ -23,7 +23,7 @@ class SessionRepository
     }
 
     /**
-     * 保存小程序会话数据加密key和openid
+     * 保存小程序会话数据加密key
      * @param string $sessionKey
      */
     public function putSessionKey(string $sessionKey)
