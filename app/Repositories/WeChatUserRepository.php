@@ -26,6 +26,7 @@ class WeChatUserRepository
     }
 
     /**
+     * 跟进openid获取用户信息
      * @param $openId
      * @return mixed | WeChatUser::class | null
      */
@@ -35,31 +36,33 @@ class WeChatUserRepository
     }
 
     /**
-     * @param $openid
-     * @param $nickname
-     * @param $avatar
-     * @param $country
-     * @param $city
-     * @param $language
+     * 创建微信用户
+     * @param string $openid
+     * @param string $nickname
+     * @param string $avatar
+     * @param string $country
+     * @param string $city
+     * @param string $language
      * @param int $gender
-     * @param null $nation
-     * @param null $mobile
+     * @param string $unionId
+     * @param string $nation
+     * @param string $mobile
      * @param int $isRobot
      *
      * @return mixed | weChatUser::class
      */
     public function create(
-        $openid,
-        $nickname,
-        $avatar,
-        $country,
-        $city,
-        $language,
-        $gender = Gender::Unknown,
-        $unionId = null,
-        $nation = null,
-        $mobile = null,
-        $isRobot = Status::No
+        string $openid,
+        string $nickname,
+        string $avatar,
+        string $country,
+        string $city,
+        string $language,
+        int $gender = Gender::Unknown,
+        string $unionId = null,
+        string $nation = null,
+        string $mobile = null,
+        int $isRobot = Status::No
     ) {
         $data = [
             'openid' => $openid,

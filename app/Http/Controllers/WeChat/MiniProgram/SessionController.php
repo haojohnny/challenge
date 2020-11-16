@@ -39,7 +39,6 @@ class SessionController extends Controller
         return new User($loginUser);
     }
 
-
     /**
      * @param RegisterRequest $request
      * @param RegisterService $register

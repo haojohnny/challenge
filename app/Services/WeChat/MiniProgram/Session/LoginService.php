@@ -9,7 +9,6 @@
 namespace App\Services\WeChat\MiniProgram\Session;
 
 use App\Enums\ErrorCode;
-use App\Enums\SessionKey;
 use App\Events\WeChat\MiniProgram\LoginSuccess;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\RpcException;
@@ -44,7 +43,7 @@ class LoginService
      * @throws RpcException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function execute($code)
+    public function execute(string $code)
     {
         // 根据code请求微信服务器获取session_key和openid
         $response = Facade::miniProgram()->auth->session($code);
@@ -52,8 +51,8 @@ class LoginService
             throw new RpcException($response['errmsg'], ErrorCode::WeChatRpcError);
         }
 
-        // 保存session_key和openid到会话
-        $this->sessionRepository->putSessionKey($response);
+        // 保存session_key
+        $this->sessionRepository->putSessionKey($response['session_key']);
 
         // 根据openid从数据库中获取用户信息
         $userInfo = $this->weChatUserRepository->getByOpenId($response['openid']);

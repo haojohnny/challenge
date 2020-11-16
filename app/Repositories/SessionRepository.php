@@ -3,37 +3,39 @@
 // | https://github.com/haojohnny
 // | @Author: Johnny
 // | Date: 2020/11/10 11:18
-// | Remark:
+// | Remark: 会话数据仓库
 // |
 
 namespace App\Repositories;
 
 use App\Enums\SessionKey;
+use App\Models\WeChatUser;
 
 class SessionRepository
 {
     /**
-     * @return mixed
+     * 获取小程序会话数据加密key
+     * @return string | null
      */
     public function getSessionKey()
     {
-        $session = request()->session()->get(SessionKey::WeChatMiniProgramSessionKey);
-
-        return $session['session_key'];
+        return request()->session()->get(SessionKey::WeChatMiniProgramSessionKey);
     }
 
     /**
-     * @param $response
+     * 保存小程序会话数据加密key和openid
+     * @param string $sessionKey
      */
-    public function putSessionKey($response)
+    public function putSessionKey(string $sessionKey)
     {
-        request()->session()->put(SessionKey::WeChatMiniProgramSessionKey, $response);
+        request()->session()->put(SessionKey::WeChatMiniProgramSessionKey, $sessionKey);
     }
 
     /**
-     * @param $userInfo
+     * 保存小程序用户信息
+     * @param WeChatUser $userInfo
      */
-    public function putUserInfo($userInfo)
+    public function putUserInfo(WeChatUser $userInfo)
     {
         request()->session()->put(SessionKey::WeChatMiniProgramUserInfo, $userInfo);
     }
