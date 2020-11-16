@@ -22,7 +22,7 @@ class UserLoginSuccess
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $loginUser;
+    protected $user;
 
     /**
      * LoginSuccess constructor.
@@ -30,7 +30,7 @@ class UserLoginSuccess
      */
     public function __construct(WeChatUser $loginUser)
     {
-        $this->loginUser = $loginUser;
+        $this->user = $loginUser;
     }
 
     /**

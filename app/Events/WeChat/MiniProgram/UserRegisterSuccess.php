@@ -15,7 +15,7 @@ class UserRegisterSuccess
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $registerUser;
+    protected $user;
 
     /**
      * Create a new event instance.
@@ -24,7 +24,7 @@ class UserRegisterSuccess
      */
     public function __construct(WeChatUser $registerUser)
     {
-        $this->registerUser = $registerUser;
+        $this->user = $registerUser;
     }
 
     /**

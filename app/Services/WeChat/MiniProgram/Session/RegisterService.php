@@ -46,32 +46,27 @@ class RegisterService
 
         // 解密数据
         $decryptedData = $encrypt->decryptData($sessionKey, $iv, $encryptedData);
-        // 获取该用户信息
-        $userInfo = $this->weChatUserRepository->getByOpenId($decryptedData['openId']);
 
-        if (!$userInfo) {
-            // 未注册时，保存该用户
-            $userInfo = $this->weChatUserRepository->create(
-                $decryptedData['openId'],
-                $decryptedData['nickName'],
-                $decryptedData['avatarUrl'],
-                $decryptedData['country'],
-                $decryptedData['city'],
-                $decryptedData['language'],
-                $decryptedData['gender'],
-                $decryptedData['unionId'] ?? null
-            );
-
-            // 向监听器派发注册成功事件
-            event(new UserRegisterSuccess($userInfo));
-        } else {
-            // 已注册时，头像和昵称有变化时将会更新
-            $userInfo->avatar = $decryptedData['avatarUrl'];
-            $userInfo->nickname = $decryptedData['nickName'];
-            // 更新事件由模型定义的观察者处理
-            $userInfo->save();
+        // 已注册时，返回已注册用户
+        if ($registeredUser = $this->weChatUserRepository->getByOpenId($decryptedData['openId'])) {
+            return $registeredUser;
         }
 
-        return $userInfo;
+        // 未注册时，注册该用户
+        $newRegisterUser = $this->weChatUserRepository->create(
+            $decryptedData['openId'],
+            $decryptedData['nickName'],
+            $decryptedData['avatarUrl'],
+            $decryptedData['country'],
+            $decryptedData['city'],
+            $decryptedData['language'],
+            $decryptedData['gender'],
+            $decryptedData['unionId'] ?? null
+        );
+
+        // 向监听器派发注册成功事件
+        event(new UserRegisterSuccess($newRegisterUser));
+
+        return $newRegisterUser;
     }
 }
