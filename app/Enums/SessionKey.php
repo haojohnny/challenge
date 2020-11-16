@@ -6,6 +6,7 @@ use BenSampo\Enum\Enum;
 
 /**
  * @method static static WeChatMiniProgramUserInfo()
+ * @method static static WeChatMiniProgramSessionKey()
  */
 final class SessionKey extends Enum
 {
