@@ -34,6 +34,6 @@ class RegisterSuccess
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('WeChat/MiniProgram/RegisterSuccess');
+        return new PrivateChannel('WeChat/MiniProgram/UserRegisterSuccess');
     }
 }

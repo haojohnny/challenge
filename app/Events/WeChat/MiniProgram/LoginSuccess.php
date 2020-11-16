@@ -40,6 +40,6 @@ class LoginSuccess
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('WeChat/MiniProgram/LoginSuccess');
+        return new PrivateChannel('WeChat/MiniProgram/UserLoginSuccess');
     }
 }
