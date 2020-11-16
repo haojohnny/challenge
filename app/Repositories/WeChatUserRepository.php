@@ -26,7 +26,7 @@ class WeChatUserRepository
     }
 
     /**
-     * 跟进openid获取用户信息
+     * 根据openid获取用户信息
      * @param $openId
      * @return mixed | WeChatUser::class | null
      */
