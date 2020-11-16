@@ -1,14 +1,7 @@
 <?php
-// +--
-// | https://github.com/haojohnny
-// | @Author: Johnny
-// | Date: 2020/11/3 15:20
-// | Remark:微信小程序用户登录成功事件
-// |
 
 namespace App\Events\WeChat\MiniProgram;
 
-use App\Http\Requests\WeChat\MiniProgram\LoginRequest;
 use App\Models\WeChatUser;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -18,19 +11,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class LoginSuccess
+class UserRegisterSuccess
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $loginUser;
+    protected $registerUser;
 
     /**
-     * LoginSuccess constructor.
-     * @param WeChatUser $weChatUser
+     * Create a new event instance.
+     *
+     * @return void
      */
-    public function __construct(WeChatUser $loginUser)
+    public function __construct(WeChatUser $registerUser)
     {
-        $this->loginUser = $loginUser;
+        $this->registerUser = $registerUser;
     }
 
     /**
@@ -40,6 +34,6 @@ class LoginSuccess
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('WeChat/MiniProgram/UserLoginSuccess');
+        return new PrivateChannel('WeChat/MiniProgram/UserRegisterSuccess');
     }
 }

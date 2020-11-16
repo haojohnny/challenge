@@ -9,7 +9,7 @@
 namespace App\Services\WeChat\MiniProgram\Session;
 
 use App\Enums\ErrorCode;
-use App\Events\WeChat\MiniProgram\LoginSuccess;
+use App\Events\WeChat\MiniProgram\UserLoginSuccess;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\RpcException;
 use App\Repositories\SessionRepository;
@@ -64,7 +64,7 @@ class LoginService
         $this->sessionRepository->putUserInfo($userInfo);
 
         // 向监听器派发登录成功事件
-        event(new LoginSuccess($userInfo));
+        event(new UserLoginSuccess($userInfo));
 
         // 返回登录用户
         return $userInfo;

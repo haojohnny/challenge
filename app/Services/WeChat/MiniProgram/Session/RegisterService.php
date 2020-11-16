@@ -8,7 +8,7 @@
 
 namespace app\Services\WeChat\MiniProgram\Session;
 
-use App\Events\WeChat\MiniProgram\RegisterSuccess;
+use App\Events\WeChat\MiniProgram\UserRegisterSuccess;
 use App\Repositories\SessionRepository;
 use App\Repositories\WeChatUserRepository;
 use Overtrue\LaravelWeChat\Facade;
@@ -63,7 +63,7 @@ class RegisterService
             );
 
             // 向监听器派发注册成功事件
-            event(new RegisterSuccess($userInfo));
+            event(new UserRegisterSuccess($userInfo));
         } else {
             // 已注册时，头像和昵称有变化时将会更新
             $userInfo->avatar = $decryptedData['avatarUrl'];
