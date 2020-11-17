@@ -8,8 +8,6 @@
 
 namespace App\Repositories;
 
-use App\Enums\Gender;
-use App\Enums\Status;
 use App\Models\WeChatUser;
 
 /**
