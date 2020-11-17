@@ -32,10 +32,10 @@ class SessionController extends Controller
      * @throws \App\Exceptions\RpcException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function login(LoginRequest $request, LoginService $login)
+    public function login(LoginRequest $request, LoginService $loginService)
     {
         $requestData = $request->validated();
-        $loginUser = $login->execute($requestData['code']);
+        $loginUser = $loginService->execute($requestData['code']);
 
         return new User($loginUser);
     }
@@ -59,7 +59,7 @@ class SessionController extends Controller
         );
 
         // 登入
-        $loginService->loginSession($registerUser);
+        $loginService->login($registerUser);
 
         return new User($registerUser);
     }

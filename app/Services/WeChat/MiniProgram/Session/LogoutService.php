@@ -49,16 +49,16 @@ class LogoutService
             throw new NotFoundException(sprintf('user not found:[id:%s]', $userId), ErrorCode::UserNotFound);
         }
 
-        $this->logoutSession($userInfo);
+        $this->logout($userInfo);
 
         return $userInfo;
     }
 
     /**
-     * 登出会话
+     * 登出
      * @param WeChatUser $userInfo
      */
-    public function logoutSession(WeChatUser $userInfo)
+    public function logout(WeChatUser $userInfo)
     {
         // 清空会话数据
         request()->session()->flush();

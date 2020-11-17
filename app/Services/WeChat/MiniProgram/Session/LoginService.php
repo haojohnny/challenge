@@ -38,7 +38,7 @@ class LoginService
     }
 
     /**
-     * @param $code
+     * @param $code <p>小程序wx.login返回的code</p>
      * @return \App\Models\WeChatUser|mixed|null
      * @throws NotFoundException
      * @throws RpcException
@@ -61,17 +61,17 @@ class LoginService
             throw new NotFoundException(sprintf('user not found:[openid:%s]', $response['openid']), ErrorCode::UserNotFound);
         }
 
-        $this->loginSession($userInfo);
+        $this->login($userInfo);
 
         // 返回登录用户
         return $userInfo;
     }
 
     /**
-     * 登入会话
+     * 登入
      * @param WeChatUser $userInfo
      */
-    public function loginSession(WeChatUser $userInfo)
+    public function login(WeChatUser $userInfo)
     {
         // 保存用户id到会话
         $this->sessionRepository->putUserId($userInfo->id);
