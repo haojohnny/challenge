@@ -32,11 +32,20 @@ class SessionRepository
     }
 
     /**
-     * 保存小程序用户信息
-     * @param WeChatUser $userInfo
+     * 保存小程序用户id
+     * @param int $userId
      */
-    public function putUserInfo(WeChatUser $userInfo)
+    public function putUserId(int $userId)
     {
-        request()->session()->put(SessionKey::WeChatMiniProgramUserInfo, $userInfo);
+        request()->session()->put(SessionKey::WeChatMiniProgramUserId, $userId);
+    }
+
+    /**
+     * 获取当前会话小程序用户id
+     * @return mixed | int | null
+     */
+    public function getUserId()
+    {
+        return request()->session()->get(SessionKey::WeChatMiniProgramUserId);
     }
 }

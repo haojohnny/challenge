@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 // 引入会话管理Services命名空间
 use App\Http\Resources\WeChat\User;
 use App\Services\WeChat\MiniProgram\Session\{
-    LoginService, RegisterService
+    LoginService, LogoutService, RegisterService
 };
 
 // 引入请求Requests命名空间
@@ -55,5 +55,14 @@ class SessionController extends Controller
         );
 
         return new User($registerUser);
+    }
+
+    /**
+     * @param LogoutService $logoutService
+     * @throws \App\Exceptions\NotFoundException
+     */
+    public function logout(LogoutService $logoutService)
+    {
+        $logoutService->execute();
     }
 }

@@ -3,7 +3,7 @@
 // | https://github.com/haojohnny
 // | @Author: Johnny
 // | Date: 2020/11/3 15:20
-// | Remark:
+// | Remark:微信小程序用户注册服务
 // |
 
 namespace app\Services\WeChat\MiniProgram\Session;

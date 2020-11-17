@@ -3,7 +3,7 @@
 // | https://github.com/haojohnny
 // | @Author: Johnny
 // | Date: 2020/11/3 15:20
-// | Remark:
+// | Remark:微信小程序用户登入服务
 // |
 
 namespace App\Services\WeChat\MiniProgram\Session;
@@ -60,8 +60,8 @@ class LoginService
             throw new NotFoundException(sprintf('user not found:[openid:%s]', $response['openid']), ErrorCode::UserNotFound);
         }
 
-        // 保存到会话
-        $this->sessionRepository->putUserInfo($userInfo);
+        // 保存用户id到会话
+        $this->sessionRepository->putUserId($userInfo->id);
 
         // 向监听器派发登录成功事件
         event(new UserLoginSuccess($userInfo));

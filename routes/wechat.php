@@ -12,6 +12,7 @@ use App\Http\Controllers\WeChat\MiniProgram\SessionController;
 
 Route::prefix('wechat')->group(function () {
     Route::any('/entry', [ServeController::class, 'entry']);      // 微信回调入口
-    Route::any('/login', [SessionController::class, 'login']);    // 登录接口
+    Route::any('/login', [SessionController::class, 'login']);    // 登入接口
+    Route::any('/logout', [SessionController::class, 'logout']);   // 登出接口
     Route::any('/register', [SessionController::class, 'register']);   // 注册接口
 });

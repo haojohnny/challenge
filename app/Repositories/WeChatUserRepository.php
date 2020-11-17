@@ -3,7 +3,7 @@
 // | https://github.com/haojohnny
 // | @Author: Johnny
 // | Date: 2020/10/23 17:46
-// | Remark:
+// | Remark:微信用户数据仓库
 // |
 
 namespace App\Repositories;
@@ -33,6 +33,16 @@ class WeChatUserRepository
     public function getByOpenId($openId)
     {
         return $this->weChatUser->where('openid', $openId)->first();
+    }
+
+    /**
+     * 根据id获取用户信息
+     * @param int $openId
+     * @return WeChatUser::class | null
+     */
+    public function getById(int $id)
+    {
+        return $this->weChatUser->where('id', $id)->first();
     }
 
     /**
