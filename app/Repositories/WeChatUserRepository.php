@@ -37,7 +37,7 @@ class WeChatUserRepository
 
     /**
      * 根据id获取用户信息
-     * @param int $openId
+     * @param int $id
      * @return WeChatUser::class | null
      */
     public function getById(int $id)
