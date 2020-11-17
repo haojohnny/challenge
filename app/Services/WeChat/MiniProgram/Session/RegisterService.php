@@ -8,6 +8,8 @@
 
 namespace app\Services\WeChat\MiniProgram\Session;
 
+use App\Enums\Gender;
+use App\Enums\Status;
 use App\Events\WeChat\MiniProgram\UserRegisterSuccess;
 use App\Repositories\SessionRepository;
 use App\Repositories\WeChatUserRepository;
@@ -53,7 +55,7 @@ class RegisterService
         }
 
         // 未注册时，注册该用户
-        $newRegisterUser = $this->weChatUserRepository->create(
+        $newRegisterUser = $this->registerUser(
             $decryptedData['openId'],
             $decryptedData['nickName'],
             $decryptedData['avatarUrl'],
@@ -62,6 +64,43 @@ class RegisterService
             $decryptedData['language'],
             $decryptedData['gender'],
             $decryptedData['unionId'] ?? null
+        );
+
+        return $newRegisterUser;
+    }
+
+    /**
+     * 注册用户
+     * @param string $openid
+     * @param string $nickname
+     * @param string $avatar
+     * @param string $country
+     * @param string $city
+     * @param string $language
+     * @param int $gender
+     * @param string|null $unionId
+     * @param string|null $nation
+     * @param string|null $mobile
+     * @param int $isRobot
+     * @return \App\Models\WeChatUser|mixed
+     */
+    public function registerUser(
+        string $openid,
+        string $nickname,
+        string $avatar,
+        string $country,
+        string $city,
+        string $language,
+        int $gender = Gender::Unknown,
+        string $unionId = null,
+        string $nation = null,
+        string $mobile = null,
+        int $isRobot = Status::No
+    ) {
+        // 注册
+        $newRegisterUser = $this->weChatUserRepository->create(
+            $openid, $nickname, $avatar, $country, $city, $language,
+            $gender, $unionId, $nation, $mobile, $isRobot
         );
 
         // 向监听器派发注册成功事件

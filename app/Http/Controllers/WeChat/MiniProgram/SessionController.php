@@ -24,6 +24,7 @@ use App\Http\Requests\WeChat\MiniProgram\{
 class SessionController extends Controller
 {
     /**
+     * 登入
      * @param LoginRequest $request
      * @param LoginService $login
      * @return User
@@ -40,24 +41,31 @@ class SessionController extends Controller
     }
 
     /**
+     * 注册并登入
      * @param RegisterRequest $request
-     * @param RegisterService $register
+     * @param RegisterService $registerService
+     * @param LoginService $loginService
      * @return User
      * @throws \EasyWeChat\Kernel\Exceptions\DecryptException
      */
-    public function register(RegisterRequest $request, RegisterService $register)
+    public function register(RegisterRequest $request, RegisterService $registerService, LoginService $loginService)
     {
         $requestData = $request->validated();
 
-        $registerUser = $register->execute(
+        // 注册
+        $registerUser = $registerService->execute(
             $requestData['encryptedData'],
             $requestData['iv']
         );
+
+        // 登入
+        $loginService->loginSession($registerUser);
 
         return new User($registerUser);
     }
 
     /**
+     * 登出
      * @param LogoutService $logoutService
      * @throws \App\Exceptions\NotFoundException
      */

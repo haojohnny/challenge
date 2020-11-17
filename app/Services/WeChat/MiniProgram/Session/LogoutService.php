@@ -11,6 +11,7 @@ namespace App\Services\WeChat\MiniProgram\Session;
 use App\Enums\ErrorCode;
 use App\Events\WeChat\MiniProgram\UserLogoutSuccess;
 use App\Exceptions\NotFoundException;
+use App\Models\WeChatUser;
 use App\Repositories\SessionRepository;
 use App\Repositories\WeChatUserRepository;
 
@@ -48,12 +49,21 @@ class LogoutService
             throw new NotFoundException(sprintf('user not found:[id:%s]', $userId), ErrorCode::UserNotFound);
         }
 
+        $this->logoutSession($userInfo);
+
+        return $userInfo;
+    }
+
+    /**
+     * 登出会话
+     * @param WeChatUser $userInfo
+     */
+    public function logoutSession(WeChatUser $userInfo)
+    {
         // 清空会话数据
         request()->session()->flush();
 
         // 向监听器派发登出成功事件
         event(new UserLogoutSuccess($userInfo));
-
-        return $userInfo;
     }
 }

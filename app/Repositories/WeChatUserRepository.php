@@ -68,11 +68,11 @@ class WeChatUserRepository
         string $country,
         string $city,
         string $language,
-        int $gender = Gender::Unknown,
-        string $unionId = null,
-        string $nation = null,
-        string $mobile = null,
-        int $isRobot = Status::No
+        int $gender,
+        string $unionId,
+        string $nation,
+        string $mobile,
+        int $isRobot
     ) {
         $data = [
             'openid' => $openid,

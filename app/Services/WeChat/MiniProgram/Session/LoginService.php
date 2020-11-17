@@ -12,6 +12,7 @@ use App\Enums\ErrorCode;
 use App\Events\WeChat\MiniProgram\UserLoginSuccess;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\RpcException;
+use App\Models\WeChatUser;
 use App\Repositories\SessionRepository;
 use App\Repositories\WeChatUserRepository;
 use Overtrue\LaravelWeChat\Facade;
@@ -60,13 +61,22 @@ class LoginService
             throw new NotFoundException(sprintf('user not found:[openid:%s]', $response['openid']), ErrorCode::UserNotFound);
         }
 
+        $this->loginSession($userInfo);
+
+        // 返回登录用户
+        return $userInfo;
+    }
+
+    /**
+     * 登入会话
+     * @param WeChatUser $userInfo
+     */
+    public function loginSession(WeChatUser $userInfo)
+    {
         // 保存用户id到会话
         $this->sessionRepository->putUserId($userInfo->id);
 
         // 向监听器派发登录成功事件
         event(new UserLoginSuccess($userInfo));
-
-        // 返回登录用户
-        return $userInfo;
     }
 }
